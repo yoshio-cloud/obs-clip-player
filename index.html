@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>クリップ埋め込みテスト</title>
+<style>
+  body { margin: 0; background: #111; color: #fff; font: bold 22px sans-serif; }
+  #info { padding: 16px; color: #ffd54a; }
+  iframe { display: block; margin: 0 16px; width: 1280px; height: 720px; border: 0; background: #333; }
+</style>
+</head>
+<body>
+<div id="info"></div>
+<iframe id="player" allowfullscreen></iframe>
+<script>
+// 離席モード用の試作。https の住所から Twitch のクリップ埋め込みが OBS で動くかを確かめる
+const clip = new URLSearchParams(location.search).get('clip') || 'TawdryObliqueYogurtPlanking-siKsi-HPRR0X_sfF';
+document.getElementById('info').textContent = 'このページの住所: ' + location.origin + ' / clip: ' + clip;
+document.getElementById('player').src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip)
+  + '&parent=' + location.hostname + '&autoplay=true&muted=true';
+</script>
+</body>
+</html>
