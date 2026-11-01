@@ -14,10 +14,12 @@
 <iframe id="player" allowfullscreen></iframe>
 <script>
 // 離席モード用の試作。https の住所から Twitch のクリップ埋め込みが OBS で動くかを確かめる
-const clip = new URLSearchParams(location.search).get('clip') || 'TawdryObliqueYogurtPlanking-siKsi-HPRR0X_sfF';
-document.getElementById('info').textContent = 'このページの住所: ' + location.origin + ' / clip: ' + clip;
+const params = new URLSearchParams(location.search);
+const clip = params.get('clip') || 'TawdryObliqueYogurtPlanking-siKsi-HPRR0X_sfF';
+const muted = params.get('muted') === 'false' ? 'false' : 'true';
+document.getElementById('info').textContent = 'このページの住所: ' + location.origin + ' / clip: ' + clip + ' / muted: ' + muted;
 document.getElementById('player').src = 'https://clips.twitch.tv/embed?clip=' + encodeURIComponent(clip)
-  + '&parent=' + location.hostname + '&autoplay=true&muted=true';
+  + '&parent=' + location.hostname + '&autoplay=true&muted=' + muted;
 </script>
 </body>
 </html>
