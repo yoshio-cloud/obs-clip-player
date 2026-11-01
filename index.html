@@ -15,6 +15,20 @@
 <script>
 // 離席モード用の試作。https の住所から Twitch のクリップ埋め込みが OBS で動くかを確かめる
 const params = new URLSearchParams(location.search);
+// ?tone=1 のときはクリップの代わりにテスト音を鳴らし、OBS が音を拾えるかだけを確かめる
+if (params.get('tone') === '1') {
+  const ac = new AudioContext();
+  const osc = ac.createOscillator();
+  const gain = ac.createGain();
+  gain.gain.value = 0.2;
+  osc.connect(gain).connect(ac.destination);
+  osc.start();
+  setInterval(() => {
+    document.getElementById('info').textContent = 'テスト音 / AudioContext: ' + ac.state;
+    if (ac.state !== 'running') ac.resume();
+  }, 500);
+  throw new Error('tone mode');
+}
 const clip = params.get('clip') || 'TawdryObliqueYogurtPlanking-siKsi-HPRR0X_sfF';
 const muted = params.get('muted') === 'false' ? 'false' : 'true';
 document.getElementById('info').textContent = 'このページの住所: ' + location.origin + ' / clip: ' + clip + ' / muted: ' + muted;
